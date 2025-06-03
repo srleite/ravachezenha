@@ -199,3 +199,109 @@ int contarNosFila(No raiz){
 
 
    }
+
+
+
+
+
+
+Árvore AVL:
+
+
+No:
+
+public class No {
+   int bal, altura;
+   int valor;
+   No esquerda, direita;
+
+
+   public No(String valor){
+       this.valor = valor;
+       esquerda = direita = null;
+   }
+
+
+}
+
+
+
+
+Árvore(incompleta e com erros):
+class ArvreAVL {
+
+
+   No raiz;
+
+
+   int altura(No node) {
+       if (node == null)
+           return 0;
+       return node.altura;
+   }
+
+
+   int max(int a, int b) {
+       return (a > b) ? a : b;
+   }
+
+
+   No rotacaoDireita(No node) {
+       No filhoEsquerda = node.esquerda;
+       No temp = filhoEsquerda.direita;
+
+
+       filhoEsquerda.direita = node;
+       node.esquerda = temp;
+
+
+       node.altura = max(altura(node.esquerda), altura(node.direita)) + 1;
+       filhoEsquerda.altura = max(altura(filhoEsquerda.esquerda), altura(filhoEsquerda.direita)) + 1;
+
+
+       // Return new root
+       return filhoEsquerda;
+   }
+
+
+   No rotacaoEsquerda(No node) {
+       No filhoDireita = node.direita;
+       No temp = filhoDireita.esquerda;
+
+
+       filhoDireita.esquerda = node;
+       node.direita = temp;
+
+
+       node.altura = max(altura(node.esquerda), altura(node.direita)) + 1;
+       filhoDireita.altura = max(altura(filhoDireita.esquerda), altura(filhoDireita.direita)) + 1;
+
+
+       return filhoDireita;
+   }
+
+
+   int balanceamento(No node) {
+       if (node == null)
+           return 0;
+       return altura(node.esquerda) - altura(node.direita);
+   }
+
+
+   No insert(No raiz, int valor) {
+       if (raiz == null)
+           return new No(raiz.valor);
+
+
+       if (valor < raiz.valor)
+           raiz.esquerda = insert(raiz.esquerda, valor);
+       else if (valor > raiz.valor)
+           raiz.direita = insert(raiz.valor, valor);
+       else
+           return raiz;
+
+
+       raiz.altura = 1 + max(altura(raiz.esquerda), altura(raiz.direita));
+
+
+       int bal = balanceamento(raiz);
